@@ -12,7 +12,7 @@ connectDB();
 // Middleware
 // ============================
 app.use(cors({
-    origin: '*',
+    origin: '*', // In production, replace with your frontend URL
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
@@ -28,6 +28,7 @@ app.use('/api/gallery',    require('./routes/gallery'));
 app.use('/api/events',     require('./routes/events'));
 app.use('/api/livestream', require('./routes/livestream'));
 app.use('/api/visitors',   require('./routes/visitors'));
+app.use('/api/videos',     require('./routes/videos'));
 
 // ============================
 // Health check
@@ -56,15 +57,11 @@ app.use((err, req, res, next) => {
 });
 
 // ============================
-// Start server (local dev only)
+// Start server
 // ============================
-if (process.env.NODE_ENV !== 'production') {
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-        console.log(`\n🚀 Server running on port ${PORT}`);
-        console.log(`📡 API: http://localhost:${PORT}/api`);
-        console.log(`🏥 Health: http://localhost:${PORT}/api/health\n`);
-    });
-}
-
-module.exports = app;
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`\n🚀 Server running on port ${PORT}`);
+    console.log(`📡 API: http://localhost:${PORT}/api`);
+    console.log(`🏥 Health: http://localhost:${PORT}/api/health\n`);
+});
