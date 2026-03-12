@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Gallery = require('../models/Gallery');
-const { protect } = require('../middleware/auth');
+const { protectAny } = require('../middleware/auth');
 const { uploadGallery, cloudinary } = require('../config/cloudinary');
 
 // @route   GET /api/gallery
@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
 // @route   POST /api/gallery
 // @desc    Upload a new photo (admin only)
 // @access  Private
-router.post('/', protect, uploadGallery.single('photo'), async (req, res) => {
+router.post('/', protectAny('gallery'), uploadGallery.single('photo'), async (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({ success: false, message: 'Please upload an image file.' });
@@ -56,7 +56,7 @@ router.post('/', protect, uploadGallery.single('photo'), async (req, res) => {
 // @route   PUT /api/gallery/:id
 // @desc    Edit a photo entry (admin only)
 // @access  Private
-router.put('/:id', protect, async (req, res) => {
+router.put('/:id', protectAny('gallery'), async (req, res) => {
     try {
         const { title, description, category, facebookUrl, youtubeUrl } = req.body;
 
@@ -80,7 +80,7 @@ router.put('/:id', protect, async (req, res) => {
 // @route   DELETE /api/gallery/:id
 // @desc    Delete a photo (admin only)
 // @access  Private
-router.delete('/:id', protect, async (req, res) => {
+router.delete('/:id', protectAny('gallery'), async (req, res) => {
     try {
         const photo = await Gallery.findById(req.params.id);
 

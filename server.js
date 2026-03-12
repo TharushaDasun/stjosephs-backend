@@ -12,7 +12,7 @@ connectDB();
 // Middleware
 // ============================
 app.use(cors({
-    origin: '*', // In production, replace with your frontend URL
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 }));
@@ -23,12 +23,14 @@ app.use(express.urlencoded({ extended: true }));
 // ============================
 // API Routes
 // ============================
-app.use('/api/auth',       require('./routes/auth'));
-app.use('/api/gallery',    require('./routes/gallery'));
-app.use('/api/events',     require('./routes/events'));
-app.use('/api/livestream', require('./routes/livestream'));
-app.use('/api/visitors',   require('./routes/visitors'));
-app.use('/api/videos',     require('./routes/videos'));
+app.use('/api/auth',        require('./routes/auth'));
+app.use('/api/gallery',     require('./routes/gallery'));
+app.use('/api/events',      require('./routes/events'));
+app.use('/api/livestream',  require('./routes/livestream'));
+app.use('/api/visitors',    require('./routes/visitors'));
+app.use('/api/videos',      require('./routes/videos'));
+app.use('/api/subadmins',   require('./routes/subadmins'));
+app.use('/api/activitylog', require('./routes/activitylog'));
 
 // ============================
 // Health check

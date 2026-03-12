@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Video = require('../models/Video');
-const { protect } = require('../middleware/auth');
+const { protectAny } = require('../middleware/auth');
 
 router.get('/', async (req, res) => {
     try {
@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/', protect, async (req, res) => {
+router.post('/', protectAny('videos'), async (req, res) => {
     try {
         const { title, youtubeUrl, youtubeId, description } = req.body;
         if (!title || !youtubeUrl || !youtubeId)
@@ -24,7 +24,7 @@ router.post('/', protect, async (req, res) => {
     }
 });
 
-router.delete('/:id', protect, async (req, res) => {
+router.delete('/:id', protectAny('videos'), async (req, res) => {
     try {
         const video = await Video.findByIdAndDelete(req.params.id);
         if (!video) return res.status(404).json({ success: false, message: 'Video not found' });

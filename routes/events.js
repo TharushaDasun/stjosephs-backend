@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Event = require('../models/Event');
-const { protect } = require('../middleware/auth');
+const { protectAny } = require('../middleware/auth');
 const { uploadEvent, cloudinary } = require('../config/cloudinary');
 
 // @route   GET /api/events
@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
 // @route   POST /api/events
 // @desc    Create a new event (admin only)
 // @access  Private
-router.post('/', protect, uploadEvent.single('image'), async (req, res) => {
+router.post('/', protectAny('events'), uploadEvent.single('image'), async (req, res) => {
     try {
         const { title, description, date, time, location, category } = req.body;
 
@@ -61,7 +61,7 @@ router.post('/', protect, uploadEvent.single('image'), async (req, res) => {
 // @route   PUT /api/events/:id
 // @desc    Update an event (admin only)
 // @access  Private
-router.put('/:id', protect, uploadEvent.single('image'), async (req, res) => {
+router.put('/:id', protectAny('events'), uploadEvent.single('image'), async (req, res) => {
     try {
         const event = await Event.findById(req.params.id);
 
@@ -104,7 +104,7 @@ router.put('/:id', protect, uploadEvent.single('image'), async (req, res) => {
 // @route   DELETE /api/events/:id
 // @desc    Delete an event (admin only)
 // @access  Private
-router.delete('/:id', protect, async (req, res) => {
+router.delete('/:id', protectAny('events'), async (req, res) => {
     try {
         const event = await Event.findById(req.params.id);
 
