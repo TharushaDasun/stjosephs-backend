@@ -31,6 +31,7 @@ app.use('/api/visitors',    require('./routes/visitors'));
 app.use('/api/videos',      require('./routes/videos'));
 app.use('/api/subadmins',   require('./routes/subadmins'));
 app.use('/api/activitylog', require('./routes/activitylog'));
+app.use('/api/countdown',   require('./routes/countdown'));
 
 // ============================
 // Health check
